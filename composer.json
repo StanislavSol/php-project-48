@@ -1,0 +1,25 @@
+{
+    "name": "hexlet/code",
+    "description": "The program calculates the differences between two files in the specified format.",
+    "bin": ["bin/gendiff"],
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        },
+        "files": [
+            "src/Parsers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "StanislavSol",
+            "email": "vandemar@bk.ru"
+        }
+    ],
+    "require": {
+        "docopt/docopt": "^1.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.11"
+    }
+}
