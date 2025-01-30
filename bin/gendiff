@@ -9,7 +9,8 @@ if (file_exists($autoloadPath1)) {
         require_once $autoloadPath2;
 }
 
-use function GenDiff\Parsers\getParseData;
+use function Differ\Parsers\getParseData;
+use function Differ\Differ\genDiff;
 
 $doc = <<<DOC
 gendiff -h
@@ -30,5 +31,5 @@ DOC;
 $args = Docopt::handle($doc);
 $filePathOne = $args->args['<firstFile>'];
 $filePathTwo = $args->args['<secondFile>'];
-
-print_r(getParseData($filePathOne, $filePathTwo)); //Тесты!
+[$fileOne, $fileTwo] = getParseData($filePathOne, $filePathTwo);
+print_r(genDiff($fileOne, $fileTwo));
