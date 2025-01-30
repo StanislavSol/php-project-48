@@ -11,6 +11,11 @@
             "src/Differ.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Differ\\Test\\": "tests"
+        }
+    },
     "authors": [
         {
             "name": "StanislavSol",
@@ -21,6 +26,7 @@
         "docopt/docopt": "^1.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.11"
+        "squizlabs/php_codesniffer": "^3.11",
+        "phpunit/phpunit": "^11.5"
     }
 }
