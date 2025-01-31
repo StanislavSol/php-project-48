@@ -14,17 +14,32 @@ class Test extends TestCase
         return realpath(implode('/', $parts));
     }
 
-    public function testGetDiffJson(): void
+    public function getDataForTests($fileNameOne, $fileNameTwo, $expectedFile)
     {
-        $pathFileOne = $this->getFixtureFullPath('file1.json');
-        $pathFileTwo = $this->getFixtureFullPath('file2.json');
-        $expectedFilePath = $this->getFixtureFullPath('flat_expected.json');
+        $pathFileOne = $this->getFixtureFullPath($fileNameOne);
+        $pathFileTwo = $this->getFixtureFullPath($fileNameTwo);
+        $expectedFilePath = $this->getFixtureFullPath($expectedFile);
 
         [$fileOne, $fileTwo] = getParseData($pathFileOne, $pathFileTwo);
         $resultDiff = genDiff($fileOne, $fileTwo);
-
         $expected = file_get_contents($expectedFilePath);
 
-        $this->assertEquals($expected, $resultDiff);
+        return [$resultDiff, $expected];
+    }
+
+    public function test(): void
+    {
+        $filesNamesForTest = [
+            ['file1.json', 'file2.json', 'flat_expected.json'],
+            ['file1.yml', 'file2.yml', 'flat_expected.json'] 
+        ];
+
+        foreach ($filesNamesForTest as $names) {
+            [$fileOne, $fileTwo, $expectedFile] = $names;
+            [$resultDiff, $expected] = $this->getDataForTests($fileOne, $fileTwo, $expectedFile);
+
+            $this->assertEquals($expected, $resultDiff);
+        }
+
     }
 }
