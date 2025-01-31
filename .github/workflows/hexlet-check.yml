@@ -25,7 +25,5 @@ jobs:
       - run: make install
       - run: make lint
       - run: make test
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        with:
-          coverageCommand: make test-coverage
+        CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        coverageCommand: make test-coverage
