@@ -30,8 +30,8 @@ class Test extends TestCase
     public function test(): void
     {
         $filesNamesForTest = [
-            ['file1.json', 'file2.json', 'flat_expected.json'],
-            ['file1.yml', 'file2.yml', 'flat_expected.json'] 
+            ['file1.json', 'file2.json', 'rec_expected.json'],
+            ['file1.yml', 'file2.yml', 'rec_expected.json'] 
         ];
 
         foreach ($filesNamesForTest as $names) {
