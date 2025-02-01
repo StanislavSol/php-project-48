@@ -30,10 +30,12 @@ function getStylishFormat($formattedData, $resultStylish=null, $deep=DEFAULT_DEE
     foreach ($formattedData as $data => $value) {
         if ($value['diff'] === 'nested') {
             $children = $data['children'];
+            $currentIndent = $deep * $indent - 2;
             $deep += 1;
-            $resultStylish .= "  {$key}: {getStylishFormat($data, $resultStylish, $deep, $indent *= $deep)}\n";
+            $indent *= $deep
+            $resultStylish .= "{$currentIndent}  {$key}: {getStylishFormat($children, $resultStylish, $deep, $indent)}\n";
         } elseif ($value['diff'] === 'added') {
-            $resultStylish .= " - {$key}: {$value['value']}";
+            $resultStylish .= "{}- {$key}: {$value['value']}";
         }
     }
 }
