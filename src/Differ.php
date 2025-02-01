@@ -10,38 +10,34 @@ function getDiffData($fileOne, $fileTwo)
 
     foreach ($dataMergeKeys as $key) {
         if (!array_key_exists($key, $fileOne)) {
-            $resultDiff[] = [
-                'name' => $key,
+            $resultDiff[$key] = [
                 'diff' => 'added',
                 'value' => $fileTwo[$key]
             ];
         } elseif (!array_key_exists($key, $fileTwo)) {
-            $resultDiff[] = [
-                'name' => $key,
+            $resultDiff[$key] = [
                 'diff' => 'deleted',
                 'value' => $fileOne[$key]
             ];
-        } elseif (is_array($fileOne[$key]) && is_array($fileTwo[$key]) && $fileOne[$key] === $fileTwo[$key]) {
-           $resultDiff[] = [
-                'name' => $key,
+        } elseif (is_array($fileOne[$key]) && is_array($fileTwo[$key])) {
+            $resultDiff[$key] = [
                 'diff' => 'nested',
                 'children' => getDiffData($fileOne[$key], $fileTwo[$key])
-            ]; 
+            ];
         } elseif ($fileOne[$key] === $fileTwo[$key]) {
-            $resultDiff[] = [
-                'name' => $key,
+            $resultDiff[$key] = [
                 'diff' => 'unchenged',
                 'value' => $fileOne[$key]
             ];
         } elseif ($fileOne[$key] !== $fileTwo[$key]) {
-            $resultDiff[] = [
-                'name' => $key,
+            $resultDiff[$key] = [
                 'diff' => 'chenged',
                 'valueOne' => $fileOne[$key],
                 'valueTwo' => $fileTwo[$key]
             ];
         }
-
-        return $resultDiff;
     }
+
+    ksort($resultDiff);
+    return $resultDiff;
 }

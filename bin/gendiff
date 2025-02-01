@@ -32,4 +32,4 @@ $args = Docopt::handle($doc);
 $filePathOne = $args->args['<firstFile>'];
 $filePathTwo = $args->args['<secondFile>'];
 [$fileOne, $fileTwo] = getParseData($filePathOne, $filePathTwo);
-var_dump(getDiffData($fileOne, $fileTwo));
+print_r(getDiffData($fileOne, $fileTwo));
