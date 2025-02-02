@@ -3,7 +3,7 @@
 namespace Differ\Differ\Formatters;
 
 const DEFAULT_DEEP = 1;
-const DEFAULT_INDENT = 2;
+const DEFAULT_INDENT = 4;
 
 function getFormattedData($data)
 {
@@ -13,6 +13,8 @@ function getFormattedData($data)
         return 'false';
     } elseif (is_null($data)) {
         return 'null';
+    } elseif(is_array($data)) {
+        return json_encode($data);
     }
     return $data;
 }
@@ -20,22 +22,53 @@ function getFormattedData($data)
 function getStylishFormat($formattedData, $resultStylish=null, $deep=DEFAULT_DEEP, $indent=DEFAULT_INDENT)
 {
     if (is_null($resultStylish)) {
-        $resultStylish = "{\n";
+        $resultStylish = "";
+    } else {
+        $resultStylish .= "{\n";
     }
 
-    if (!in_array($formattedData)) {
-        return $formattedData;
-    }
+    foreach ($formattedData as $key => $value) {
+        $currentIndent = $deep * $indent;
 
-    foreach ($formattedData as $data => $value) {
         if ($value['diff'] === 'nested') {
-            $children = $data['children'];
-            $currentIndent = $deep * $indent - 2;
             $deep += 1;
-            $indent *= $deep
-            $resultStylish .= "{$currentIndent}  {$key}: {getStylishFormat($children, $resultStylish, $deep, $indent)}\n";
+            $indent *= $deep;
+            $children = getStylishFormat($value['children'], $resultStylish, $deep, $indent);
+            $spaceSize = str_repeat(' ', $currentIndent - 2);
+            $resultStylish .= "{\n{$spaceSize}  {$key}: {$children}\n";
+
         } elseif ($value['diff'] === 'added') {
-            $resultStylish .= "{}- {$key}: {$value['value']}";
+            $spaceSize = str_repeat(' ', $currentIndent - 2);
+            $value =  getFormattedData($value['value']);
+            $resultStylish .= "{$spaceSize}- {$key}: {$value}\n";
+
+        } elseif ($value['diff'] === 'deleted') {
+            $spaceSize = str_repeat(' ', $currentIndent - 2);
+            $value =  getFormattedData($value['value']);
+            $resultStylish .= "{$spaceSize}+ {$key}: {$value}\n";
+
+        } elseif ($value['diff'] === 'unchenged') {
+            $spaceSize = str_repeat(' ', $currentIndent);
+            $value =  getFormattedData($value['value']);
+            $resultStylish .= "{$spaceSize}{$key}: {$value}\n";
+
+        } elseif ($value['diff'] === 'chenged') {
+            $spaceSize = str_repeat(' ', $currentIndent - 2);
+            $valueOne =  getFormattedData($value['valueOne']);
+            $valueTwo =  getFormattedData($value['valueTwo']);
+            $resultStylish .= "{$spaceSize}- {$key}: {$valueOne}\n";
+            $resultStylish .= "{$spaceSize}+ {$key}: {$valueTwo}\n";
         }
     }
+
+    $spaceSize = str_repeat(' ', $currentIndent - 4);;
+    $resultStylish .= "{$spaceSize}\n}";
+
+    return $resultStylish;
+
+}
+
+function getStylish($data)
+{
+    return getStylishFormat($data);
 }

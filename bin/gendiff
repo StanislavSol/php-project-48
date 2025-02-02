@@ -11,6 +11,7 @@ if (file_exists($autoloadPath1)) {
 
 use function Differ\Parsers\getParseData;
 use function Differ\Differ\getDiffData;
+use function Differ\Differ\Formatters\getStylish;
 
 $doc = <<<DOC
 gendiff -h
@@ -32,4 +33,5 @@ $args = Docopt::handle($doc);
 $filePathOne = $args->args['<firstFile>'];
 $filePathTwo = $args->args['<secondFile>'];
 [$fileOne, $fileTwo] = getParseData($filePathOne, $filePathTwo);
-print_r(getDiffData($fileOne, $fileTwo));
+$dataDiff = getDiffData($fileOne, $fileTwo);
+print_r(getStylish($dataDiff));
