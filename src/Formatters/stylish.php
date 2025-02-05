@@ -70,6 +70,7 @@ function getStylishFormat($data, $deep=DEFAULT_DEEP)
         }
     }
     if ($isAddSpaces) {
+       $spaceSizeInEnd = str_repeat(' ', INDENT * $deep - 8);
        $resultStylish .= "{$spaceSizeInEnd}}"; 
     }
 
@@ -78,6 +79,5 @@ function getStylishFormat($data, $deep=DEFAULT_DEEP)
 
 function getStylish($data)
 {
-    return getStylishFormat($data) . "\n}\n";
+    return getStylishFormat($data) . "\n";
 }
-
