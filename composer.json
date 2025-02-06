@@ -9,6 +9,7 @@
         "files": [
             "src/Parsers.php",
             "src/Differ.php",
+            "src/InterimData.php",
             "src/Formatters/stylish.php"
         ]
     },

@@ -3,9 +3,7 @@
 namespace Differ\Test;
 
 use PHPUnit\Framework\TestCase;
-use function Differ\Formatters\Stylish\getStylish;
-use function Differ\Parsers\getParseData;
-use function Differ\Differ\getDiffData;
+use function Differ\Differ\genDiff;
 
 class Test extends TestCase
 {
@@ -15,18 +13,23 @@ class Test extends TestCase
         return realpath(implode('/', $parts));
     }
 
-    public function getDataForTests($fileNameOne, $fileNameTwo, $expectedFile)
+    public function getDataForTests($fileNameOne, $fileNameTwo, $expectedFile, $formatName = 'stylish')
     {
+        $formarts = [
+            'stylish' => 'Differ\Formatters\Stylish\getStylish'
+        ];
+      //  $result = genDiff($filePathOne, $filePathTwo, $formatName)
         $pathFileOne = $this->getFixtureFullPath($fileNameOne);
         $pathFileTwo = $this->getFixtureFullPath($fileNameTwo);
         $expectedFilePath = $this->getFixtureFullPath($expectedFile);
+        $result = genDiff($fileNameOne, $fileNameTwo, $formatName);
 
-        [$fileOne, $fileTwo] = getParseData($pathFileOne, $pathFileTwo);
-        $resultDiff = getDiffData($fileOne, $fileTwo);
-        $resultStyle = getStylish($resultDiff);
+       // [$fileOne, $fileTwo] = getParseData($pathFileOne, $pathFileTwo);
+      //  $resultDiff = getDiffData($fileOne, $fileTwo);
+       // $resultStyle = getStylish($resultDiff);
         $expected = file_get_contents($expectedFilePath);
 
-        return [$resultStyle, $expected];
+        return [$result, $expected];
     }
 
     public function test(): void
@@ -37,8 +40,8 @@ class Test extends TestCase
         ];
 
         foreach ($filesNamesForTest as $names) {
-            [$fileOne, $fileTwo, $expectedFile] = $names;
-            [$resultDiff, $expected] = $this->getDataForTests($fileOne, $fileTwo, $expectedFile);
+            [$fileOne, $fileTwo, $expectedFile, $formatName] = $names;
+            [$resultDiff, $expected] = $this->getDataForTests($fileOne, $fileTwo, $expectedFile, $formatName);
 
             $this->assertEquals($expected, $resultDiff);
         }
