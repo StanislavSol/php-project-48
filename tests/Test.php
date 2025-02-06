@@ -3,8 +3,9 @@
 namespace Differ\Test;
 
 use PHPUnit\Framework\TestCase;
-use function Differ\Formatters\getStylish;
+use function Differ\Formatters\Stylish\getStylish;
 use function Differ\Parsers\getParseData;
+use function Differ\Differ\getDiffData;
 
 class Test extends TestCase
 {
@@ -21,10 +22,11 @@ class Test extends TestCase
         $expectedFilePath = $this->getFixtureFullPath($expectedFile);
 
         [$fileOne, $fileTwo] = getParseData($pathFileOne, $pathFileTwo);
-        $resultDiff =getStylish($fileOne, $fileTwo);
+        $resultDiff = getDiffData($fileOne, $fileTwo);
+        $resultStyle = getStylish($resultDiff);
         $expected = file_get_contents($expectedFilePath);
 
-        return [$resultDiff, $expected];
+        return [$resultStyle, $expected];
     }
 
     public function test(): void

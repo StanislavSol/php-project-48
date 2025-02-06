@@ -11,7 +11,7 @@ if (file_exists($autoloadPath1)) {
 
 use function Differ\Parsers\getParseData;
 use function Differ\Differ\getDiffData;
-use function Differ\Differ\Formatters\getStylish;
+use function Differ\Formatters\Stylish\getStylish;
 
 $doc = <<<DOC
 gendiff -h
