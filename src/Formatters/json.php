@@ -2,6 +2,7 @@
 
 namespace Differ\Formatters\Json;
 
-function getJson($data) {
+function getJson($data)
+{
     return json_encode($data) . "\n";
 }
