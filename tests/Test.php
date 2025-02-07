@@ -15,18 +15,10 @@ class Test extends TestCase
 
     public function getDataForTests($fileNameOne, $fileNameTwo, $expectedFile, $formatName = 'stylish')
     {
-        $formarts = [
-            'stylish' => 'Differ\Formatters\Stylish\getStylish'
-        ];
-      //  $result = genDiff($filePathOne, $filePathTwo, $formatName)
         $pathFileOne = $this->getFixtureFullPath($fileNameOne);
         $pathFileTwo = $this->getFixtureFullPath($fileNameTwo);
         $expectedFilePath = $this->getFixtureFullPath($expectedFile);
-        $result = genDiff($fileNameOne, $fileNameTwo, $formatName);
-
-       // [$fileOne, $fileTwo] = getParseData($pathFileOne, $pathFileTwo);
-      //  $resultDiff = getDiffData($fileOne, $fileTwo);
-       // $resultStyle = getStylish($resultDiff);
+        $result = genDiff($pathFileOne, $pathFileTwo, $formatName);
         $expected = file_get_contents($expectedFilePath);
 
         return [$result, $expected];
@@ -35,8 +27,11 @@ class Test extends TestCase
     public function test(): void
     {
         $filesNamesForTest = [
-            ['file1.json', 'file2.json', 'rec_expected.json'],
-            ['file1.yml', 'file2.yml', 'rec_expected.json'] 
+            ['file1.json', 'file2.json', 'stylish_expected.json', 'stylish'],
+            ['file1.yml', 'file2.yml', 'stylish_expected.json', 'stylish'],
+            ['file1.json', 'file2.json', 'plain_expected.json', 'plain'],
+            ['file1.yml', 'file2.yml', 'plain_expected.json', 'plain'],
+            ['file1.yml', 'file2.yml', 'json_expected.json', 'json'],
         ];
 
         foreach ($filesNamesForTest as $names) {

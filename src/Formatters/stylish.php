@@ -8,18 +8,7 @@ const INDENT_FOR_START_SPACE = 2;
 const INDENT_FOR_END_SPACE_ONE = 8;
 const INDENT_FOR_END_SPACE_TWO = 4;
 
-
-function getFormattedData($data)
-{
-    if (is_bool($data) && $data === true) {
-        return 'true';
-    } elseif (is_bool($data) && $data === false) {
-        return 'false';
-    } elseif (is_null($data)) {
-        return 'null';
-    }
-    return $data;
-}
+use function Differ\Formatters\DataFormatting\getFormattedData;
 
 function getStylishFormat($data, $deep = DEFAULT_DEEP)
 {

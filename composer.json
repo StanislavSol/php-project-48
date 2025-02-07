@@ -10,7 +10,10 @@
             "src/Parsers.php",
             "src/Differ.php",
             "src/InterimData.php",
-            "src/Formatters/stylish.php"
+            "src/Formatters/stylish.php",
+            "src/Formatters/plain.php",
+            "src/Formatters/json.php",
+            "src/Formatters/dataFormatting.php"
         ]
     },
     "autoload-dev": {
