@@ -2,7 +2,7 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/fb905ca56e5cb4b7069c/test_coverage)](https://codeclimate.com/github/StanislavSol/php-project-48/test_coverage)
 
-Instruсtion:
+### Instruсtion:
 The program finds the difference between flat and nested trees of YML and JSON files
 
 Сommand output "gendiff --help":
@@ -23,7 +23,7 @@ Options:
   --format <fmt>                Report format [default: stylish]
 ```
 
-Installation:
+### Installation:
 Clone the repository to your system -
 ```
 git clone https://github.com/StanislavSol/python-project-50.git
@@ -32,4 +32,4 @@ In the terminal, enter the command -
 ```
 make install
 ```
-[DEMO](https://asciinema.org/a/O9HnSCNqJer3aYCAsrLteCEM2)
+### [DEMO](https://asciinema.org/a/O9HnSCNqJer3aYCAsrLteCEM2)
