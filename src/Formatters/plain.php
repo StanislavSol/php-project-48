@@ -2,9 +2,12 @@
 
 namespace Differ\Formatters\Plain;
 
+const INCREASE_DEEP = 1;
+const FIRST_INDEX_PATH = 0;
+
 use function Differ\Formatters\DataFormatting\getFormattedData;
 
-function getPlain($data, $path = [], $resultPlain = '', $deep = 0)
+function getPlain($data, $path = [], $resultPlain = '', $deep = FIRST_INDEX_PATH)
 {
     foreach ($data as $key => $value) {
         $resultPath = implode('.', $path);
@@ -22,8 +25,8 @@ function getPlain($data, $path = [], $resultPlain = '', $deep = 0)
             $resultPlain .= "Property '{$resultPath}{$key}' was updated. From {$formatValueOne} to {$formatValueTwo}\n";
         } elseif ($value['diff'] === 'nested') {
             $path[] = $key;
-            $resultPlain .= getPlain($value['children'], $path, '', $deep + 1);
-            $path = array_slice($path, 0, $deep);
+            $resultPlain .= getPlain($value['children'], $path, '', $deep + INCREASE_DEEP);
+            $path = array_slice($path, FIRST_INDEX_PATH, $deep);
         }
     }
     return $resultPlain;

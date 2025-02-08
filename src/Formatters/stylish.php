@@ -4,9 +4,7 @@ namespace Differ\Formatters\Stylish;
 
 const DEFAULT_DEEP = 1;
 const INDENT = 4;
-const INDENT_FOR_START_SPACE = 2;
-const INDENT_FOR_END_SPACE_ONE = 8;
-const INDENT_FOR_END_SPACE_TWO = 4;
+const EXTRA_SPACES = 2;
 
 use function Differ\Formatters\DataFormatting\getFormattedData;
 
@@ -17,9 +15,9 @@ function getStylishFormat($data, $deep = DEFAULT_DEEP)
     }
 
     $resultStylish = "{\n";
-    $spaceSizeInBegin = str_repeat(' ', INDENT * $deep - INDENT_FOR_START_SPACE);
+    $spaceSizeInBegin = str_repeat(' ', INDENT * $deep - EXTRA_SPACES);
     $deep += 1;
-    $spaceSizeInEnd = str_repeat(' ', INDENT * $deep - INDENT_FOR_END_SPACE_TWO);
+    $spaceSizeInEnd = str_repeat(' ', INDENT * $deep - INDENT);
 
     foreach ($data as $key => $value) {
         if (is_array($value) && array_key_exists('diff', $value)) {
@@ -38,7 +36,7 @@ function getStylishFormat($data, $deep = DEFAULT_DEEP)
                 $resultStylish .= "{$spaceSizeInBegin}- {$key}: {$value}\n";
             } elseif ($value['diff'] === 'unchenged') {
                 $isAddSpaces = true ? is_array($value['value']) : false;
-                $spaceSize = str_repeat(' ', INDENT_FOR_START_SPACE) . $spaceSizeInBegin;
+                $spaceSize = str_repeat(' ', EXTRA_SPACES) . $spaceSizeInBegin;
                 $value = getStylishFormat($value['value'], $deep);
                 $resultStylish .= "{$spaceSize}{$key}: {$value}\n";
             } elseif ($value['diff'] === 'chenged') {
@@ -55,7 +53,7 @@ function getStylishFormat($data, $deep = DEFAULT_DEEP)
     }
 
     if ($isAddSpaces) {
-        $spaceSizeInEnd = str_repeat(' ', INDENT * $deep - INDENT_FOR_END_SPACE_ONE);
+        $spaceSizeInEnd = str_repeat(' ', INDENT * $deep - INDENT * EXTRA_SPACES);
         $resultStylish .= "{$spaceSizeInEnd}}";
     }
 
