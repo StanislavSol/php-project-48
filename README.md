@@ -32,4 +32,9 @@ In the terminal, enter the command -
 ```
 make install
 ```
+### Using:
+```
+make gendiff [--format <fmt>] <firstFile> <secondFile>
+```
+
 ### [DEMO](https://asciinema.org/a/O9HnSCNqJer3aYCAsrLteCEM2)
